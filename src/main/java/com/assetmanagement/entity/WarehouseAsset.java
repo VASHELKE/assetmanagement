@@ -1,6 +1,5 @@
 package com.assetmanagement.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,8 +9,11 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "warehouse_asset_tbl")
+@Table(name = "warehouse_asset_table")
 public class WarehouseAsset {
+
+	@Column(name = "no_of_items")
+	private int noOfItems;
 
 	@EmbeddedId
 	private WarehouseAssetKey id;
@@ -26,8 +28,13 @@ public class WarehouseAsset {
 	@JoinColumn(name = "asset_id")
 	private Asset asset;
 
-	@Column(name = "no_of_items")
-	private int noOfItems;
+	public int getNoOfItems() {
+		return noOfItems;
+	}
+
+	public void setNoOfItems(int noOfItems) {
+		this.noOfItems = noOfItems;
+	}
 
 	public WarehouseAssetKey getId() {
 		return id;
@@ -35,14 +42,6 @@ public class WarehouseAsset {
 
 	public void setId(WarehouseAssetKey id) {
 		this.id = id;
-	}
-
-	public Warehouse getWarehouse() {
-		return warehouse;
-	}
-
-	public void setWarehouse(Warehouse warehouse) {
-		this.warehouse = warehouse;
 	}
 
 	public Asset getAsset() {
@@ -53,15 +52,12 @@ public class WarehouseAsset {
 		this.asset = asset;
 	}
 
-	public int getNoOfItems() {
-		return noOfItems;
+	public Warehouse getWarehouse() {
+		return warehouse;
 	}
 
-	public void setNoOfItems(int noOfItems) {
-		this.noOfItems = noOfItems;
+	public void setWarehouse(Warehouse warehouse) {
+		this.warehouse = warehouse;
 	}
 
-	
-
-	
 }

@@ -1,18 +1,20 @@
 package com.assetmanagement.entity;
 
+
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@SuppressWarnings("serial")
 @Embeddable
-public class WarehouseAssetKey implements Serializable{
+public class WarehouseAssetKey implements Serializable {
 
 	@Column(name = "warehouse_id")
-    private int warehouseId;
-
-    @Column(name = "asset_id")
-    private int assetId;
+	private int warehouseId;
+	@Column(name = "asset_id")
+	private int assetId;
 
 	public int getWarehouseId() {
 		return warehouseId;
@@ -30,7 +32,4 @@ public class WarehouseAssetKey implements Serializable{
 		this.assetId = assetId;
 	}
 
-	
-    
-    
 }

@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "Asset_tbl")
@@ -16,9 +19,11 @@ public class Asset {
 	@Column(name = "asset_id")
 	private int assetId;
 
+	@NotBlank(message="Asset name can't be empty")
 	@Column(name = "asset_name")
 	private String assetName;
 
+	@Positive(message="Asset price can't be in nagative value")
 	@Column(name = "asset_price")
 	private double assetPrice;
 

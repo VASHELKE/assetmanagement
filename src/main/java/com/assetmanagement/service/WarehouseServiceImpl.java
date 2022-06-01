@@ -10,7 +10,6 @@ import com.assetmanagement.entity.Warehouse;
 import com.assetmanagement.exception.WarehouseNotFoundException;
 import com.assetmanagement.repository.WarehouseRepository;
 
-
 @Service
 public class WarehouseServiceImpl implements WarehouseService{
 	@Autowired
@@ -27,7 +26,7 @@ public class WarehouseServiceImpl implements WarehouseService{
 	public Warehouse updateWarehouse(Warehouse warehouse) {
 		Optional<Warehouse> optional =warehouseRepository.findById(warehouse.getWarehouseId());
 		if(optional.isEmpty()) {
-			throw new WarehouseNotFoundException("Warehouse not found with"+warehouse.getWarehouseId());
+			throw new WarehouseNotFoundException("Warehouse not found with Id"+warehouse.getWarehouseId());
 		}
 		
 		return warehouseRepository.save(warehouse);
@@ -37,7 +36,7 @@ public class WarehouseServiceImpl implements WarehouseService{
 	public void deleteWarehouse(int warehouseId) {
 		Optional<Warehouse>optional=warehouseRepository.findById(warehouseId);
 		if(optional.isEmpty()) {
-			throw new WarehouseNotFoundException("warehouse not found with"+warehouseId);
+			throw new WarehouseNotFoundException("Warehouse not found with Id : "+warehouseId);
 		}
 		warehouseRepository.deleteById(warehouseId);
 	}
@@ -45,14 +44,18 @@ public class WarehouseServiceImpl implements WarehouseService{
 	@Override
 	public List<Warehouse> getAllWarehouse() {
 		
-		return warehouseRepository.findAll();
+		List<Warehouse> allList= warehouseRepository.findAll();
+		if(allList.isEmpty()) {
+			throw new WarehouseNotFoundException("Sorry no warehouses available...!");
+		}
+		return allList;
 	}
 
 	@Override
 	public Warehouse getWarehouseById(int warehouseId) {
 		Optional<Warehouse> optional= warehouseRepository.findById(warehouseId);
 		if(optional.isEmpty()) {
-			throw new WarehouseNotFoundException("warehouse not found with "+warehouseId);
+			throw new WarehouseNotFoundException("Warehouse not found with Id : "+warehouseId);
 		}
 		Warehouse warehouse=optional.get();
 		return warehouse;
@@ -64,11 +67,24 @@ public class WarehouseServiceImpl implements WarehouseService{
 		Optional<Warehouse> optional=warehouseRepository.findByWarehouseName(warehouseName);
 		
 		if(optional.isEmpty()) {
-			throw new WarehouseNotFoundException("warehouse not found with"+warehouseName);
+			throw new WarehouseNotFoundException("Warehouse not found with Name : "+warehouseName);
 		}
 		
 		Warehouse warehouse=optional.get();
 		return warehouse;
+	}
+
+	@Override
+	public List<Warehouse> getWarehousesByLocation(String location) {
+		
+		List<Warehouse> warehouses = warehouseRepository.findByWarehouseLocation(location);
+		
+		if(warehouses.isEmpty()) {
+		throw new WarehouseNotFoundException("Warehouse not found with this location : " + location);
+
+		 }
+		
+		return warehouses;
 	}
 
 }

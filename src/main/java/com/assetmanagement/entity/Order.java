@@ -1,9 +1,10 @@
 package com.assetmanagement.entity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,36 +15,45 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "order_tbl")
 public class Order {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_id")
 	private int orderId;
 
+	
 	@Column(name = "order_date")
 	private LocalDate orderDate;
-
+	
 	@Column(name = "order_status")
 	private String orderStatus;
 
-	@Column(name = "order_quantity")
-	private long orderQuantity;
-
+	@NotNull(message="User id is required")
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToOne
-	@JoinColumn(name = "shipment_id")
+	@JsonIgnore
+	@OneToOne(mappedBy="order")
 	private Shipment shipment;
 
-	@OneToMany(mappedBy = "order")
-	// @JoinColumn(name="order_item_id")
-	private List<OrderItem> orderitems = new ArrayList<>();
+	@NotNull(message="to warehouse id is required")
+	@Column(name="to_Warehouse_id")
+	private int toWarehouseId;     
+	
+	@NotNull(message="from warehouse id is required")
+	@Column(name="from_Warehouse_id")
+	private int fromWarehouseId;
+	
+	@OneToMany(mappedBy = "order",cascade=CascadeType.ALL)
+	private Set<OrderItem> orderitems = new HashSet<>();
 
 	public int getOrderId() {
 		return orderId;
@@ -69,14 +79,6 @@ public class Order {
 		this.orderStatus = orderStatus;
 	}
 
-	public long getOrderQuantity() {
-		return orderQuantity;
-	}
-
-	public void setOrderQuantity(long orderQuantity) {
-		this.orderQuantity = orderQuantity;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -93,12 +95,28 @@ public class Order {
 		this.shipment = shipment;
 	}
 
-	public List<OrderItem> getOrderitems() {
+	public Set<OrderItem> getOrderitems() {
 		return orderitems;
 	}
 
-	public void setOrderitems(List<OrderItem> orderitems) {
+	public void setOrderitems(Set<OrderItem> orderitems) {
 		this.orderitems = orderitems;
+	}
+
+	public int getToWarehouseId() {
+		return toWarehouseId;
+	}
+
+	public void setToWarehouseId(int toWarehouseId) {
+		this.toWarehouseId = toWarehouseId;
+	}
+
+	public int getFromWarehouseId() {
+		return fromWarehouseId;
+	}
+
+	public void setFromWarehouseId(int fromWarehouseId) {
+		this.fromWarehouseId = fromWarehouseId;
 	}
 
 	

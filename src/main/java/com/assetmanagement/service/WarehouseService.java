@@ -1,7 +1,8 @@
 package com.assetmanagement.service;
 
+
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ public interface WarehouseService {
 	 public void deleteWarehouse(int warehouseId);
 	 
 	 public List<Warehouse> getAllWarehouse();
+	 
+	 public List<Warehouse> getWarehousesByLocation(String location);
 	 
 	 public Warehouse getWarehouseById(int warehouseId);
 	 
